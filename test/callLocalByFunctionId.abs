@@ -34,31 +34,39 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-function script0$init():*	/* disp_id 0*/
 
-
+ /*
+  *  Bind a function to a global slot; refer to it by .function_id 
+  *  in the newfunction instruction.
+  */
+.script_info {
+	init: .function_id(main)
+	traits : {
+		.trait { kind: Trait_Slot name: zarquon slot_id:1 type_name:* }
+	}
+}
+function main()
 {
-  // local_count=1 max_scope=1 max_stack=2 code_len=41
-  0         getlocal0     	
-  1         pushscope     	
-  2         debugfile     	"ifte.as"
-  4         debugline     	1
-  6         pushshort 99
-  10        pushbyte      	7
-  12        ifgt         	L1
+	getlocal0
+	pushscope
+	newfunction .function_id(zarquon)
+ 
+	getglobalscope
+	swap
+	setslot             1
+	getglobalscope
+	getslot 1
 
-  16        debugline     	2
-  18        findpropstrict	print
-  20        pushstring    	"then"
-  22        callproperty  	print (1)
-  26        jump          	L2
-  
-  L1: 
-  30        debugline     	4
-  32        findpropstrict	print
-  34        pushstring    	"else"
-  36        callproperty  	print (1)
-  
-  L2: 
-  40        returnvoid    	
+	getlocal0
+	call  0
+	returnvoid
+    
+}
+
+function zarquon()
+{
+	findpropstrict      print
+	pushstring          "hello, world."
+	callpropvoid        print (1)
+	returnvoid
 }

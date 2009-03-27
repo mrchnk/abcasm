@@ -1,3 +1,4 @@
+/* -*- Mode: Java; c-basic-offset: 4; indent-tabs-mode: nil; tab-width: 4 -*- */
 /* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
@@ -34,31 +35,63 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-function script0$init():*	/* disp_id 0*/
+package abcasm;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
 
+/**
+ * Abstract representation of an ABC pool,
+ * which can be sorted according to some
+ * criterion (e.g., most used elements to
+ * lowest positions).
+ *
+ * @param <T>
+ */
+public class Pool<T extends Comparable>
 {
-  // local_count=1 max_scope=1 max_stack=2 code_len=41
-  0         getlocal0     	
-  1         pushscope     	
-  2         debugfile     	"ifte.as"
-  4         debugline     	1
-  6         pushshort 99
-  10        pushbyte      	7
-  12        ifgt         	L1
+	Map<T,Integer> refs = new TreeMap<T,Integer>();
+	ArrayList<T> values = new ArrayList<T>();
+	int countFrom;
+	
+	public Pool(int countFrom)
+	{
+		this.countFrom = countFrom;
+	}
+	
+	public int add(T e)
+	{
+		if ( !refs.containsKey(e) )
+		{
+			values.add(e);
+			refs.put(e, size());
+		}
 
-  16        debugline     	2
-  18        findpropstrict	print
-  20        pushstring    	"then"
-  22        callproperty  	print (1)
-  26        jump          	L2
-  
-  L1: 
-  30        debugline     	4
-  32        findpropstrict	print
-  34        pushstring    	"else"
-  36        callproperty  	print (1)
-  
-  L2: 
-  40        returnvoid    	
+		return refs.get(e);
+	}
+	
+	public ArrayList<T> getValues()
+	{
+		return values;
+	}
+	
+	public int id(T e)
+	{
+		if ( !refs.containsKey(e))
+			throw new IllegalArgumentException("Unknown pool item \"" + e.toString() + "\"");
+		return refs.get(e);
+	}
+	
+	public String toString()
+	{
+		return String.valueOf(refs);
+	}
+	
+	public int size()
+	{
+		return countFrom + refs.size();
+	}
 }
+

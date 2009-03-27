@@ -1,3 +1,4 @@
+/* -*- Mode: Java; c-basic-offset: 4; indent-tabs-mode: nil; tab-width: 4 -*- */
 /* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
@@ -34,31 +35,30 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-function script0$init():*	/* disp_id 0*/
+package abcasm;
 
+import java.util.Vector;
 
+class AssemblerOptions
 {
-  // local_count=1 max_scope=1 max_stack=2 code_len=41
-  0         getlocal0     	
-  1         pushscope     	
-  2         debugfile     	"ifte.as"
-  4         debugline     	1
-  6         pushshort 99
-  10        pushbyte      	7
-  12        ifgt         	L1
+	boolean dumpIl = false;
+	boolean verbose = false;
+	boolean expandedDiagnostics = false;
 
-  16        debugline     	2
-  18        findpropstrict	print
-  20        pushstring    	"then"
-  22        callproperty  	print (1)
-  26        jump          	L2
-  
-  L1: 
-  30        debugline     	4
-  32        findpropstrict	print
-  34        pushstring    	"else"
-  36        callproperty  	print (1)
-  
-  L2: 
-  40        returnvoid    	
+	java.util.Vector<String> asmFile = new java.util.Vector<String>();
+	
+	AssemblerOptions(String[] args)
+	{
+		for ( String option: args)
+		{
+			if ( option.equalsIgnoreCase("-dump"))
+				dumpIl = true;
+			else if ( option.equalsIgnoreCase("-verbose"))
+				verbose = true;
+			else if ( option.equalsIgnoreCase("-debug_assembler"))
+				expandedDiagnostics = true;
+			else
+				asmFile.add(option);
+		}
+	}
 }
