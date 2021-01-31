@@ -5,9 +5,10 @@ function hello()
 {
 	getlocal0
 	pushscope
-
+        
+        timestamp
 	pushstring "Hello, world"
-	//.print
+	//print
 
 	findpropstrict START
 	pushstring ".print demo"

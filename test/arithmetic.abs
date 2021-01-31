@@ -5,101 +5,73 @@
 /*
  *  Tests arithmetic with the constant pools.
  */
-function main():*
+ 
+ 
+function doTest():*
 {
+    debugfile "arithmetic.abs"
+	debugline 55
+
 	getlocal0
 	pushscope
-	findpropstrict	{package}::print
-	setlocal1
+
+	findpropstrict START
+	pushstring "Arithmetic using the int and uint pools"
+	callproperty START 1
 
 	pushstring "byte 9 + short 938="
     pushbyte 9
 	pushshort 938
 	add
-	add // string + int
-	getlocal1
-	swap
-	callproperty print(1)
+	dup
+	setlocal2
+	//  String + int
+	add
+	setlocal3
 
-	pushstring "int 3652147 + uint 0x80000000="
+	findpropstrict COMPARE_STRICTEQ
+	pushstring "byte 9 + short 938"
+	pushshort 947
+	getlocal2
+	callproperty COMPARE_STRICTEQ 3
+
+	findpropstrict COMPARE_STRICTEQ
+	pushstring "add string and previous result"
+	pushstring "byte 9 + short 938=947"
+	getlocal3
+
+	findpropstrict COMPARE_STRICTEQ
+	pushstring "int 3652147 + uint 0x80000000"
 	pushint 3652147
 	pushuint 0x80000000
 	add
-	add
-	getlocal1
-	swap
-	callproperty print(1)
+	pushuint 2151135795
+	callproperty COMPARE_STRICTEQ 3
 
-	pushstring "9.391 / 3.2="
+	findpropstrict COMPARE_STRICTEQ
+	pushstring "9.391 / 3.2"
 	pushdouble 9.391
 	pushdouble 3.2
 	divide
-	add //  String add
-	getlocal1
-	swap
-	callproperty print(1)
+	pushdouble 2.9346875
+	callproperty COMPARE_STRICTEQ 3
 
-	pushstring "convert_f(9.391) / convert_f(3.2)="
-	pushdouble 9.391
-	convert_f
-	pushdouble 3.2
-	convert_f
-	divide
-	add //  String add
-	getlocal1
-	swap
-	callproperty print(1) 
-
-	pushstring "9.391f / 3.2f="
-	pushfloat 9.391f
-	pushfloat 3.2f
-	divide
-	add //  String add
-	getlocal1
-	swap
-	callproperty print(1)
-
-	pushstring "9.391f * 3.2f="
-	pushfloat 9.391f
-	pushfloat 3.2f
-	multiply
-	add //  String add
-	getlocal1
-	swap
-	callproperty print(1)
-
-	pushstring "9.391f + 3.2f="
-	pushfloat 9.391f
-	pushfloat 3.2f
-	add
-	add //  String add
-	getlocal1
-	swap
-	callproperty print(1)
-
-	pushstring "9.391f - 3.2f="
-	pushfloat 9.391f
-	pushfloat 3.2f
-	subtract
-	add //  String add
-	getlocal1
-	swap
-	callproperty print(1)
-
-	pushstring "9.391f / 3.2f="
-	pushfloat4 9.391f,-2.2f,NaN,4.5
-	pushstring "3.2"
-	unplus
-	add
-	pushdouble 1.0
-	convert_f4
-	pushfloat 1.0f
-	unplus
-	add
-	multiply
-	getlocal1
-	swap
-	callproperty print(1)
+	findpropstrict END
+	callproperty END 0
 
 	returnvoid
 }
+ 
+function main()
+{
+    debugfile "arithmetic.abs"
+	debugline 44
+    getlocal0
+	pushscope
+    newfunction doTest
+	getlocal0
+	call 0
+	returnvoid
+}
+
+script_info{init: main}
